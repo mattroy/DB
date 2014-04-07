@@ -7,26 +7,27 @@
 //require
 var http = require('http'),
     express = require('express'),
+	passport = require('passport'),
     service = require("./routing/routing");
 
-//service routing
+//initialize
 var app = express();
-app.get("/users", service.allUsers);
-app.get("/users/:username", service.getUser);
-app.post("/users/", service.createUser);
-app.delete("/users/:username", service.deleteUser);
 
-app.get("/songs", service.allSongs);
+require('./config/passport_config')(passport);
 
-
-//create a server
-var server = http.createServer(function(req, res){
-    res.writeHead(200, {"Content-type": "text/plain"});
-    res.end("Hello World");
+app.configure(function() {
+	app.use(express.cookieParser());
+	app.use(express.bodyParser());
+	app.use(express.session({secret: "asecretkeyforsessions"}));
+	app.use(express.static("./client"));
+	app.use(passport.initialize());
+	app.use(passport.session());
 });
 
 
+require('./routing/routing')(app, passport);
+
+//start server
 app.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(){
-//   var addr = server.address();
-//   console.log("Chat server listening at", addr.address + ":" + addr.port);
+	console.log("server started.");
 });

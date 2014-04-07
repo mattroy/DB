@@ -4,6 +4,10 @@
 	"version": "0.0.1",
 	"private":false,
 	"dependencies": {
-		"express": "3.x"
+		"express": "3.x",
+		"passport": "0.1.x",
+		"passport-local": "0.1.x",
+		"mongoose": "3.6.x",
+		"bcrypt-nodejs": "0.0.3"
 	}
 }
