@@ -23,21 +23,28 @@ module.exports = function(app, passport) {
 
 	db.once('open', function() {
 		console.log("Connected to database.");
-		db.findOne(
+		
 	});
 
 	
 	/*Routing*/
+	
+	//return the login page
 	app.get('/', function(req, res) {
 		res.sendfile("./client/index.html");
 	});
 	
+	//post for logging in a user
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/main',
 		failureRedirect: '/'
 	}));
 	
-	//login
+	//post for signup user
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect: '/main',
+		failureRedirect: '/'
+	}));
 	
 	app.get('/logout', function(req, res) {
 		console.log("Log out requested.");

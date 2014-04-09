@@ -46,4 +46,32 @@ module.exports = function(passport) {
 			});
 	}));
 
+	/*Signup*/
+	passport.use('local-signup', new LocalStrategy(
+		function(username, password, done) {
+			console.log("User: " + username + " is trying to sign up");
+			User.findOne({"username": username}, function(err, user) {
+				
+				if(err) {
+					console.log("error logging in " + err);
+					return done(err);
+				}
+				
+				if(user) {
+					console.log("User " + username + " already exists.");
+					return done(null, false);
+				} else {
+					var user = new User({
+						username: username,
+						password: password
+					});
+					user.save();
+					return done(null, user);
+				}
+				
+				
+				return done(null, user);
+				
+			});
+	}));
 };
