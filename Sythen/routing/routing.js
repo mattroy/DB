@@ -15,7 +15,8 @@ module.exports = function(app, passport) {
 	/*Start Database*/
 	var 
 		mongoose = require("mongoose"),
-		LocalStrategy = require("passport-local").Strategy;
+		LocalStrategy = require("passport-local").Strategy,
+		User = require("../schema/user");
 
 
 	mongoose.connect('mongodb://localhost/sythendb');
@@ -55,6 +56,30 @@ module.exports = function(app, passport) {
 	app.get("/main", function(req, res) {
 		res.sendfile("./client/main.html");
 	});
-
 	
+	
+	/*Services*///--------------------------------------------------------
+	
+	/*Users*/--------------------------
+	
+	// GET
+	//  /users
+	//  RETURNS: list of all users
+	app.get('/users', function(req, res) {
+		var users = [];
+		User.find({}, function(err, users) {
+			console.log("Found a user " + users[0].username);
+			res.send(users);
+		});
+		//res.send(users);
+	});
+	
+	// GET
+	/
+	app.get('/user/:username', function(req, res) {
+		User.find({username: req.params.username}, function(err, users) {
+			console.log("found a single user" + users[0].username);
+			res.send(users);
+		});
+	});
 }
