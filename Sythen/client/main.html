@@ -1,19 +1,21 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="./css/main.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	</head>
 	<body>
 	
-		<div id='userDiv'>
+		<div class="box" id='userDiv'>
 			<img id="avatarImage" src="images/avatar.png">
-			<p> logout</p>
+			<a class="button">logout</a>
 		</div>
 		
-		<div> 
-			Song <menu id="songMenu"> <a src="#">New</a> <a src="#">Open</a> <a src="#">Save</a></menu> <div id="indicator"> </div>
+		<div class="box" id="topBar"> 
+			Song <menu id="songMenu"> <a src="#" class="button" id="newButton">New</a> <a src="#" class="button">Open</a> <a src="#" class="button">Save</a></menu> 
+			<div class="box" id="indicator"> </div>
 		</div>
 		
-		<div id="synth">
+		<div class="box" id="synth">
 			<a id="sythnButton_1" class="synthButton" href="#"></a>
 			<a id="sythnButton_2" class="synthButton" href="#"></a>
 			<a id="sythnButton_3" class="synthButton" href="#"></a>
@@ -30,10 +32,14 @@
 			<a id="sythnButton_12" class="synthButton" href="#"></a>
 		</div>
 		
-		<div id="playbar">
+		<div class="box" id="playbar">
 			<hr/>
 		</div>
 		
+		<div id="dialog" title="Basic dialog">
+			<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+		</div>
+
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="./javascript/sythen.js"></script>

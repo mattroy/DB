@@ -60,13 +60,13 @@ module.exports = function(app, passport) {
 	
 	/*Services*///--------------------------------------------------------
 	
-	/*Users*/--------------------------
+	/*Users*///--------------------------
 	
 	// GET
 	//  /users
 	//  RETURNS: list of all users
 	app.get('/users', function(req, res) {
-		var users = [];
+		//var users = [];
 		User.find({}, function(err, users) {
 			console.log("Found a user " + users[0].username);
 			res.send(users);
@@ -75,7 +75,7 @@ module.exports = function(app, passport) {
 	});
 	
 	// GET
-	/
+	
 	app.get('/user/:username', function(req, res) {
 		User.find({username: req.params.username}, function(err, users) {
 			console.log("found a single user" + users[0].username);

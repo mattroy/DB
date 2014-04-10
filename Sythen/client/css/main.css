@@ -1,7 +1,7 @@
 /*main.css*/
 
 
-div {
+.box {
 	background-color: rgb(34, 34, 34);
 	border-radius: 3px;
 	width: 50%;
@@ -12,8 +12,21 @@ div {
 	font-size: 0px;
 }
 
+#topBar {
+	font-family: sans-serif;
+	color: rgb(151,151,151);
+}
+
 #songMenu {
 	display: inline;
+}
+
+#songMenu > a {
+}
+
+#songMenu > a:hover{
+	color: white;
+	cursor: default;
 }
 
 #playbar {
@@ -44,6 +57,7 @@ div {
 	height: 50px;
 	width: 200px;
 	background-color: rgb(43,43,43);
+	color: rgb(151,151,151);
 }
 
 #avatarImage {
@@ -74,3 +88,13 @@ p {
 	font-family: sans-serif;
 }
 
+
+.button {
+	color:rgb(151,151,151);
+	font-family: sans-serif;
+}
+
+.button:hover {
+	color:white;
+	cursor: default;
+}
