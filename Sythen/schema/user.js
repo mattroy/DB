@@ -1,3 +1,8 @@
+//SYTHEN 
+//Matt Roy
+//CS5200
+//Final Project
+
 /*User Schema*/
 
 var mongoose = require('mongoose'),

@@ -75,11 +75,17 @@ module.exports = function(app, passport) {
 	});
 	
 	// GET
-	
+    //      /user/{username}
+    //      RETURNS: a specific user
 	app.get('/user/:username', function(req, res) {
 		User.find({username: req.params.username}, function(err, users) {
 			console.log("found a single user" + users[0].username);
 			res.send(users);
 		});
 	});
+    
+    // POST 
+    //      /songs
+    //      Store a new song to the database.
+    
 }
