@@ -65,14 +65,19 @@
 }
 
 .synthButton{
-	background-color: black;
-	width: 25%;
-	height: 33%;
+	background-color: rgb(104, 104, 104);
+	width: 20%;
+	height: 27%;
+	margin: 10px;
 	display: inline-block;
 	box-sizing: border-box;
-	border: 3px solid rgb(34,34,34);
+	border-radius: 10px;
+	box-shadow: 0px 3px 1px 1px orange;
 }
 
+.synthButton:active {
+	box-shadow: none;
+}
 
 body {
 	background-color: rgb(74,74,74);
@@ -97,4 +102,15 @@ p {
 .button:hover {
 	color:white;
 	cursor: default;
+}
+
+.controlButton {
+	height: 32px;
+	width: 32px;
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.controlButton:hover {
+	background-color: #1D1C1C;
 }
