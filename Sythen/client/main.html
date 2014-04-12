@@ -1,20 +1,20 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="./css/main.css">
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="./css/ui-darkness/jquery-ui-1.10.4.custom.min.css">
 	</head>
 	<body>
 	
 		<div class="box" id='userDiv'>
 			<img id="avatarImage" src="images/avatar.png">
-			<a class="button">logout</a>
+			<a class="button" id="logoutButton">logout</a>
 		</div>
 		
 		<div class="box" id="topBar"> 
 			Song <menu id="songMenu"> 
 				<a src="#" class="button" id="newButton">New</a>
 				<a src="#" class="button">Open</a> 
-				<a src="#" class="button">Save</a>
+				<a src="#" class="button" id="saveButton">Save</a>
 			</menu> 
 			<div class="box" id="indicator"> </div>
 		</div>
@@ -44,12 +44,13 @@
 			<a id="stopButton" class="controlButton"> <img src="../images/stop.png"></a>
 		</div>
 		
-		<div id="dialog" title="Basic dialog">
-			<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+		<div id="saveDialog" title="Basic dialog">
+			<input id="newSongNameInput" placeholder="Song Name"></input>
+			<button id="saveNewSongButton">Save</button>
 		</div>
 
-		<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
-		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<script type="text/javascript" src="./javascript/libs/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="./javascript/libs/jquery-ui-1.10.4.custom.min.js"></script>
 		<script type="text/javascript" src="./javascript/libs/soundjs.min.js"></script>
 		<script type="text/javascript" src="./javascript/sythen.js"></script>
 	</body>

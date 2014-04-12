@@ -18,6 +18,7 @@ require('./config/passport_config')(passport);
 app.configure(function() {
 	app.use(express.cookieParser());
 	app.use(express.bodyParser());
+    app.use(express.json());
 	app.use(express.session({secret: "asecretkeyforsessions"}));
 	app.use(express.static("./client"));
 	app.use(passport.initialize());

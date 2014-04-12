@@ -11,11 +11,12 @@ module.exports = function(passport) {
 	
 	//set-up persistent login
 	passport.serializeUser(function(user, done) {
-		done(null, user.id);
+        console.log("Serialize user " + user.username);
+		done(null, user.username);
 	});
 	
-	passport.deserializeUser(function(id, done) {
-		User.findById(id, function(err, user) {
+	passport.deserializeUser(function(username, done) {
+		User.find({username: username}, function(err, user) {
 			done(err, user);
 		});
 	});

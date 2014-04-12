@@ -3,7 +3,7 @@
 //CS5200
 //Final Project
 
-//This is the front end code for running the digital sythensizer. It is responsible for 
+//This is the front end code for running the digital synthesizer. It is responsible for 
 // loading the audio files and recording/playing sounds.
 
 
@@ -13,6 +13,7 @@
         playInterval,
         playing = false;
 
+     /*Initializers*///--------------------------------------------------------
     function loadSounds() {
 
         var audioPath = "sounds/",
@@ -35,6 +36,12 @@
         createjs.Sound.registerManifest(manifest, audioPath);
 
     }
+    
+    function createDialogs() {
+        var dialog = $("#saveDialog").dialog({
+                autoOpen: false
+            });
+    }
 
     function setupSynthButtons() {
         $("#synth > .synthButton").click(handleSoundButton);
@@ -42,7 +49,17 @@
         $("#stopButton").click(handleStop);
         $("#playButton").click(handlePlay);
     }
+    
+    function setupMenuButtons() {
+        $("#saveButton").click(handleSaveButton);
+        $("#logoutButton").click(handleLogoutButton);
+    }
+    
+    function setupDialogButtons() {
+        $("#saveNewSongButton").button().click(handleSaveNewSongButton);
+    }
 
+    /*Handlers*///-------------------------------------------------------------
     function handleSoundLoad(event) {
         console.log("Audio " + event.src + " was loaded.");
     }
@@ -100,26 +117,42 @@
             time += 50;
         }, 50);
     }
+    
+    function handleSaveButton() {
+        console.log("save button was clicked");
+        $("#saveDialog").dialog("open");
+        
+    }
+    
+    function handleSaveNewSongButton() {
+        var songName = $("#newSongNameInput").val(),
+        song = {};
+        
+        song.name = songName;
+        song.data = queue;
+        
+        $.post("./songs", song, function() {
+            console.log("close save dialog");
+            $("#saveDialog").dialog("close");
+        });
+    }
+    
+    function handleLogoutButton() {
+        $.get("./logout", function(data) {
+            console.log("data is " + JSON.stringify(data));
+            window.location = "/";
+        });
+    }
 
+    //Run initializers
     $(function() {
-        console.log("initializing...");
+        console.log("initializing app...");
 
-        /*Dialog Creation*/
-        var dialog = $("#dialog").dialog({
-            autoOpen: false
-        });
-
-        $("#newButton").click(function() {
-            console.log("open save dialog");
-            $("#dialog").dialog("open");
-        });
-
-        /*Setup Player*/
-
-        /*Load Sounds*/
+        createDialogs();
         loadSounds();
         setupSynthButtons();
+        setupMenuButtons();
+        setupDialogButtons();
 
-        //TODO: remove web dependencies
     });
 
