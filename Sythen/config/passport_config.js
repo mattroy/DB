@@ -64,8 +64,8 @@ module.exports = function(passport) {
 				} else {
 					var user = new User({
 						username: username,
-						password: password
 					});
+					user.password = user.getHash(password);
 					user.save();
 					return done(null, user);
 				}
