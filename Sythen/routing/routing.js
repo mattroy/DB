@@ -66,12 +66,10 @@ module.exports = function(app, passport) {
 	//  /users
 	//  RETURNS: list of all users
 	app.get('/users', function(req, res) {
-		//var users = [];
 		User.find({}, function(err, users) {
 			console.log("Found a user " + users[0].username);
 			res.send(users);
 		});
-		//res.send(users);
 	});
 	
 	// GET
@@ -87,5 +85,12 @@ module.exports = function(app, passport) {
     // POST 
     //      /songs
     //      Store a new song to the database.
-    
+	
+	
+	/*Comments*///-------------------------------
+	
+    app.post('/songs/:songId/comments', function(req, res) {
+		console.log("Adding a comment for " + req.params.songId + " : " + req.body);
+	});
+	
 }

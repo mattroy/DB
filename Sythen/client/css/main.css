@@ -6,6 +6,7 @@
 	border-radius: 3px;
 	width: 50%;
 	margin: 5px;
+	box-sizing: border-box;
 }
 #synth {
 	height: 40%;
@@ -23,6 +24,7 @@
 #topBar {
 	font-family: sans-serif;
 	color: rgb(151,151,151);
+	margin-top: 20px;
 }
 
 #songMenu {
@@ -39,6 +41,18 @@
 
 #playbar {
 	height: 10%;
+}
+
+#comments {
+	height: 30%;
+	padding: 10px;
+}
+
+#commentInput {
+	width: 100%;
+	border-radius: 4px;
+	padding: 3px;
+	border: none;
 }
 
 #indicator {
@@ -90,7 +104,6 @@
 body {
 	background-color: rgb(74,74,74);
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	margin: 0;

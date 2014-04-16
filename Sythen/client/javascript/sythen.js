@@ -11,7 +11,8 @@
         newQueue = [],
         baseTime,
         playInterval,
-        playing = false;
+        playing = false,
+		currentSongId;
 
      /*Initializers*///--------------------------------------------------------
     function loadSounds() {
@@ -58,6 +59,18 @@
     function setupDialogButtons() {
         $("#saveNewSongButton").button().click(handleSaveNewSongButton);
     }
+	
+	function setupComments() {
+		var commentInput = $('#commentInput');
+		
+		commentInput.keydown(function(e) {
+				
+				if(e.keyCode === 13) {
+					e.preventDefault();
+					addNewComment(commentInput.val(), loadComments);
+				}
+			});
+	}
 
     /*Handlers*///-------------------------------------------------------------
     function handleSoundLoad(event) {
@@ -143,6 +156,17 @@
             window.location = "/";
         });
     }
+	
+	/*Comment Services*///------------------------------------------------
+	function addNewComment(comment, songId, callback) {
+		$.post("./songs/" + songId + "/comments", comment, callback);
+	}
+	
+	function loadComments(songId) {
+		$.get("./songs/" + songId + "/comments", function(data) {
+			
+		});
+	}
 
     //Run initializers
     $(function() {
@@ -153,6 +177,6 @@
         setupSynthButtons();
         setupMenuButtons();
         setupDialogButtons();
-
+		setupComments();
     });
 
