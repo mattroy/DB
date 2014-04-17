@@ -142,7 +142,7 @@
         song = {};
         
         song.name = songName;
-        song.data = queue;
+        song.songData = queue.slice(0, queue.length - 1);
         
         $.post("./songs", song, function() {
             console.log("close save dialog");

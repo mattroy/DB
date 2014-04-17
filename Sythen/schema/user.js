@@ -10,7 +10,9 @@ var mongoose = require('mongoose'),
 
 var userSchema = mongoose.Schema({
 	username: String,
-	password: String
+	password: String,
+	dateJoined: {type: Date, default: Date.now()},
+	profilePic: {type: String, default: "images/user.png"}
 });
 
 
@@ -21,9 +23,9 @@ userSchema.methods.getHash = function(password) {
 
 //check if a given password is valid
 userSchema.methods.validatePassword = function(password) {
-	//return (password === this.password);
 	return bcrypt.compareSync(password, this.password);
 };
+
 
 module.exports = mongoose.model('User', userSchema);
 

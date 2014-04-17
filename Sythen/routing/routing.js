@@ -16,7 +16,9 @@ module.exports = function(app, passport) {
 	var 
 		mongoose = require("mongoose"),
 		LocalStrategy = require("passport-local").Strategy,
-		User = require("../schema/user");
+		User = require("../schema/user"),
+		Song = require("../schema/song"),
+		Comment = require("../schema/comment");
 
 
 	mongoose.connect('mongodb://localhost/sythendb');
@@ -62,9 +64,6 @@ module.exports = function(app, passport) {
 	
 	/*Users*///--------------------------
 	
-	// GET
-	//  /users
-	//  RETURNS: list of all users
 	app.get('/users', function(req, res) {
 		User.find({}, function(err, users) {
 			console.log("Found a user " + users[0].username);
@@ -72,20 +71,34 @@ module.exports = function(app, passport) {
 		});
 	});
 	
-	// GET
-    //      /user/{username}
-    //      RETURNS: a specific user
-	app.get('/user/:username', function(req, res) {
+	app.get('/users/:username', function(req, res) {
 		User.find({username: req.params.username}, function(err, users) {
 			console.log("found a single user" + users[0].username);
 			res.send(users);
 		});
 	});
     
-    // POST 
-    //      /songs
-    //      Store a new song to the database.
+	/*Songs*///----------------------------------
 	
+	app.post('/songs', function(req, res) {
+		console.log("User is authenticated.", req.isAuthenticated());
+		console.log("Created a new song for " + req.user);
+		console.log("Created a new song for " + req.user);
+		
+		var song = new Song({
+			username: req.user.username,
+			name: req.body.name,
+			data: req.body.songData
+		});
+		song.save();
+		
+	});
+	
+	app.get('/songs', function(req, res) {
+			Song.find({}, function(err, songs) {
+				res.send(songs);
+			});
+	});
 	
 	/*Comments*///-------------------------------
 	
