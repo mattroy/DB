@@ -12,7 +12,7 @@ module.exports = function(passport) {
 	//set-up persistent login
 	passport.serializeUser(function(user, done) {
         console.log("Serialize user " + user.username);
-		done(null, user);
+		done(null, user.username);
 	});
 	
 	passport.deserializeUser(function(username, done) {

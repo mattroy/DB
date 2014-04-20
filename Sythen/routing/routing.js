@@ -81,15 +81,12 @@ module.exports = function(app, passport) {
 	/*Songs*///----------------------------------
 	
 	app.post('/songs', function(req, res) {
-		console.log("User is authenticated.", req.isAuthenticated());
-		console.log("Created a new song for " + req.user);
-		console.log("Created a new song for " + req.user);
-		
-		var song = new Song({
-			username: req.user.username,
-			name: req.body.name,
-			data: req.body.songData
-		});
+        var username = req.session.passport.user.username,
+                song = new Song({
+                    username: username,
+                    name: req.body.name,
+                    data: req.body.songData
+                });
 		song.save();
 		
 	});
@@ -99,6 +96,7 @@ module.exports = function(app, passport) {
 				res.send(songs);
 			});
 	});
+    
 	
 	/*Comments*///-------------------------------
 	

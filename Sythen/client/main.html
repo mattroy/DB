@@ -1,4 +1,4 @@
-<html>
+<html ng-app>
 	<head>
 		<title>SYNTHEN</title>
 		<link rel="icon" href="./images/fav.ico" type="image/icon-x">
@@ -15,7 +15,7 @@
 		<div class="box" id="topBar"> 
 			Song <menu id="songMenu"> 
 				<a src="#" class="button" id="newButton">New</a>
-				<a src="#" class="button">Open</a> 
+				<a src="#" class="button" id="openButton">Open</a> 
 				<a src="#" class="button" id="saveButton">Save</a>
 			</menu> 
 			<div class="box" id="indicator"> </div>
@@ -54,13 +54,20 @@
 		<input id="commentInput" placeholder="Leave a Comment on this song."></input>
 		</div>
 		
-		<div id="saveDialog" title="Basic dialog">
+		<div id="saveDialog" title="Save Current Song.">
 			<input id="newSongNameInput" placeholder="Song Name"></input>
 			<button id="saveNewSongButton">Save</button>
+		</div>
+		
+		<div id="openDialog" title="Open a Song" ng-controller="openSongsController">
+			<ul>
+				<li ng-repeat="song in songs">{{song.name}}</li>
+			</ul>
 		</div>
 
 		<script type="text/javascript" src="./javascript/libs/jquery-1.10.2.js"></script>
 		<script type="text/javascript" src="./javascript/libs/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="./javascript/libs/angular.min.js"></script>
 		<script type="text/javascript" src="./javascript/libs/soundjs.min.js"></script>
 		<script type="text/javascript" src="./javascript/sythen.js"></script>
 	</body>
