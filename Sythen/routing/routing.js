@@ -100,8 +100,14 @@ module.exports = function(app, passport) {
 	
 	/*Comments*///-------------------------------
 	
-    app.post('/songs/:songId/comments', function(req, res) {
-		console.log("Adding a comment for " + req.params.songId + " : " + req.body);
+    app.post('/comments', function(req, res) {
+		var comment;
+        
+        console.log("Adding a comment for " + req.body.songId + " : " + req.body.user + ":" + req.body.comment);
+        
+        comment = new Comment({
+        
+        });
 	});
 	
 }

@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/main.css">
 		<link rel="stylesheet" href="./css/ui-darkness/jquery-ui-1.10.4.custom.min.css">
 	</head>
-	<body>
+	<body ng-controller="openSongsController">
 	
 		<div class="box" id='userDiv'>
 			<img id="avatarImage" src="images/avatar.png">
@@ -13,8 +13,8 @@
 		</div>
 		
 		<div class="box" id="topBar"> 
-			Song <menu id="songMenu"> 
-				<a src="#" class="button" id="newButton">New</a>
+			<span id="titleSpan" ng-init="currentSong.name = 'New Song'">{{currentSong.name}}<span> <menu id="songMenu"> 
+				<a src="#" class="button" id="newButton" ng-click="newSong()">New</a>
 				<a src="#" class="button" id="openButton">Open</a> 
 				<a src="#" class="button" id="saveButton">Save</a>
 			</menu> 
@@ -59,9 +59,9 @@
 			<button id="saveNewSongButton">Save</button>
 		</div>
 		
-		<div id="openDialog" title="Open a Song" ng-controller="openSongsController">
+		<div id="openDialog" title="Open a Song">
 			<ul>
-				<li ng-repeat="song in songs">{{song.name}}</li>
+				<li ng-repeat="song in songs">{{song.name}} <button ng-click="loadSong(song._id)">Open</button></li>
 			</ul>
 		</div>
 

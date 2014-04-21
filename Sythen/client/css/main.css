@@ -15,6 +15,10 @@
 	flex-direction: column;
 }
 
+#titleSpan {
+	color: rgb(89, 149, 255);
+}
+
 .sythenRows {
 	display: flex;
 	align-content: center;

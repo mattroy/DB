@@ -196,6 +196,30 @@ function openSongsController($scope, $http) {
     $http.get("./songs").success(function(data) {
         $scope.songs = data;
     });
+    
+    $scope.loadSong = function(id) {
+        console.log("Attempting to open song " + id);
+        for(var i = 0; i < $scope.songs.length; i++) {
+            if($scope.songs[i]._id === id) {
+                queue = $scope.songs[i].data;
+               $scope.currentSong = $scope.songs[i];
+            }
+        }
+    }
+    
+    $scope.loadComments = function(comment) {
+        console.log("Loading the comments for this song.");
+        $http.get("./comments/" + $scope.currentSong._id).success(function(data) {
+            $scope.comments = data;
+        });
+    }
+    
+    $scope.newSong = function() {
+        console.log("Switching to  a new song.");
+        $scope.currentSong = {};
+        $scope.currentSong.queue = [];
+        $scope.currentSong.name = "New Song";
+    }
 }
 
 //Run initializers
