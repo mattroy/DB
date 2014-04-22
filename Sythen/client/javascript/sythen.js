@@ -20,15 +20,18 @@ var queue = [],
  //  Create the dialogs for user actions.
 function createDialogs() {
     "use strict";
-    var dialog, open;
     
-    dialog = $("#saveDialog").dialog({
+    $("#saveDialog").dialog({
             autoOpen: false
      });
      
-     open = $("#openDialog").dialog({
+     $("#openDialog").dialog({
             autoOpen: false
      });
+     
+     $("#profileDialog").dialog({
+        autoOpen: false
+    });
 }
 
 function loadSounds() {
@@ -67,6 +70,7 @@ function setupMenuButtons() {
     $("#saveButton").click(handleSaveButton);
     $("#openButton").click(handleOpenButton);
     $("#logoutButton").click(handleLogoutButton);
+    $("#avatarImage").click(handleProfileClick);
 }
 
 function setupDialogButtons() {
@@ -157,6 +161,10 @@ function handleSaveButton() {
 function handleOpenButton() {
     console.log("Open button was clicked");
     $("#openDialog").dialog("open");
+}
+
+function handleProfileClick() {
+    $("#profileDialog").dialog("open");
 }
 
 function handleSaveNewSongButton() {

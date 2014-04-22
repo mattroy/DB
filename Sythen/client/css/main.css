@@ -100,7 +100,11 @@
 
 #avatarImage {
 	vertical-align: center;
+	height: 48px;
+	width: 48px;
+	cursor: pointer;
 }
+
 
 .synthButton{
 	background-color: rgb(104, 104, 104);
@@ -153,4 +157,9 @@ p {
 
 .controlButton:hover {
 	background-color: #1D1C1C;
+}
+
+.avatars {
+	height: 48px;
+	width: 48px;
 }
