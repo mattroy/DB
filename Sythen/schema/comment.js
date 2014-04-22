@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 
 var commentSchema = mongoose.Schema({
 	comment: String,
-	song_id: String,
+	songId: String,
 	username: String,
 	dateMade: {type: Date, default: Date.now()}
 });

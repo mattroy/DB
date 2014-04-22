@@ -179,16 +179,6 @@ function handleLogoutButton() {
     });
 }
 
-/*Comment Services*///------------------------------------------------
-function addNewComment(comment, songId, callback) {
-    $.post("./songs/" + songId + "/comments", comment, callback);
-}
-
-function loadComments(songId) {
-    $.get("./songs/" + songId + "/comments", function(data) {
-        
-    });
-}
 
 /*Controllers*///---------------------------------------------------------
 function openSongsController($scope, $http) {
@@ -196,6 +186,7 @@ function openSongsController($scope, $http) {
     $http.get("./songs").success(function(data) {
         $scope.songs = data;
     });
+
     
     $scope.loadSong = function(id) {
         console.log("Attempting to open song " + id);
@@ -203,6 +194,7 @@ function openSongsController($scope, $http) {
             if($scope.songs[i]._id === id) {
                 queue = $scope.songs[i].data;
                $scope.currentSong = $scope.songs[i];
+               $scope.loadComments();
             }
         }
     }
@@ -214,12 +206,39 @@ function openSongsController($scope, $http) {
         });
     }
     
+    $scope.loadUser = function() {
+        console.log("Get current user.");
+        $http.get("./currentUser").success(function(data) {
+            $scope.currentUser = data;
+        });
+    }
+    
     $scope.newSong = function() {
         console.log("Switching to  a new song.");
         $scope.currentSong = {};
         $scope.currentSong.queue = [];
         $scope.currentSong.name = "New Song";
     }
+    
+    /*Comments*/
+    $scope.leaveComment = function() {
+        var comment = {};
+        
+        if(!$scope.currentSong._id) {
+            return;
+        }
+        console.log("Adding comment.");
+        
+        comment.user = $scope.currentUser.username;
+        comment.comment =  $scope.commentInput;
+        comment.song = $scope.currentSong._id;
+        $http.post("./comments", comment).success(function() {
+            $scope.commentInput = "";
+            $scope.loadComments();
+        });
+    }
+    
+    $scope.loadUser();
 }
 
 //Run initializers

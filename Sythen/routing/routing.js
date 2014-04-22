@@ -78,10 +78,18 @@ module.exports = function(app, passport) {
 		});
 	});
     
+    app.get('/currentUser', function(req, res) {
+        console.log("Looking for user " + req.session.passport.user);
+        User.find({username: req.session.passport.user}, function(err, users) {
+            console.log("The current user is " + users[0].username);
+            res.send(users[0]);
+        });
+    });
+    
 	/*Songs*///----------------------------------
 	
 	app.post('/songs', function(req, res) {
-        var username = req.session.passport.user.username,
+        var username = req.session.passport.user,
                 song = new Song({
                     username: username,
                     name: req.body.name,
@@ -96,18 +104,29 @@ module.exports = function(app, passport) {
 				res.send(songs);
 			});
 	});
-    
 	
-	/*Comments*///-------------------------------
-	
+	/*Comments*///------------------------------
     app.post('/comments', function(req, res) {
 		var comment;
         
-        console.log("Adding a comment for " + req.body.songId + " : " + req.body.user + ":" + req.body.comment);
+        console.log("Adding a comment for " + req.body.song + " : " + req.body.user + ":" + req.body.comment);
         
         comment = new Comment({
-        
+            songId: req.body.song,
+            comment: req.body.comment,
+            username: req.body.user
         });
+        
+        comment.save();
+        res.send("ok");
 	});
+    
+    app.get('/comments/:id', function(req,res) {
+        console.log("Requesting comments for id: " + req.params.id);
+        
+        Comment.find({songId: req.params.id}).sort({dateMade: 'desc'}).find(function(err, comments) {
+            res.send(comments);
+        });
+    });
 	
 }

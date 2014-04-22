@@ -50,6 +50,18 @@
 #comments {
 	height: 30%;
 	padding: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+#comments li {
+	color: white;
+	list-style: none;
+	font-family: sans-serif;
+}
+
+#comments ol {
+	overflow-y: auto;
 }
 
 #commentInput {
