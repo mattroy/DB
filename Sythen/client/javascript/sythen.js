@@ -226,6 +226,7 @@ function openSongsController($scope, $http) {
         $scope.currentSong = {};
         $scope.currentSong.queue = [];
         $scope.currentSong.name = "New Song";
+        $scope.comments = [];
     }
     
     /*Comments*/
