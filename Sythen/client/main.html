@@ -19,36 +19,36 @@
 				<a src="#" class="button" id="openButton">Open</a> 
 				<a src="#" class="button" id="saveButton">Save</a>
 			</menu> 
-			<div class="box" id="indicator"> </div>
+			<div class="box {{playerState}}" id="indicator"> </div>
 		</div>
 		
 		<div class="box" id="synth">
 			<div class="sythenRows">
-				<a id="sythnButton_1" class="synthButton" data-sound-id="1"></a>
-				<a id="sythnButton_2" class="synthButton" data-sound-id="2"></a>
-				<a id="sythnButton_3" class="synthButton" data-sound-id="3"></a>
-				<a id="sythnButton_4" class="synthButton" data-sound-id="4"></a>
+				<a class="synthButton" ng-click="handleSythnButton('1')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('2')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('3')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('4')"></a>
 			</div>
 			<div class="sythenRows">
-				<a id="sythnButton_5" class="synthButton" data-sound-id="5"></a>
-				<a id="sythnButton_6" class="synthButton" data-sound-id="6"></a>
-				<a id="sythnButton_7" class="synthButton" data-sound-id="7"></a>
-				<a id="sythnButton_8" class="synthButton" data-sound-id="8"></a>
+				<a class="synthButton" ng-click="handleSythnButton('5')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('6')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('7')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('8')"></a>
 			</div>
 			<div class="sythenRows">
-				<a id="sythnButton_9" class="synthButton" data-sound-id="9"></a>
-				<a id="sythnButton_10" class="synthButton" data-sound-id="10"></a>
-				<a id="sythnButton_11" class="synthButton" data-sound-id="11"></a>
-				<a id="sythnButton_12" class="synthButton" data-sound-id="12"></a>
+				<a class="synthButton" ng-click="handleSythnButton('9')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('10')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('11')"></a>
+				<a class="synthButton" ng-click="handleSythnButton('12')"></a>
 			</div>
 		</div>
 		
 		<div class="box" id="playbar">
 			<hr/>
-			<a id="recordButton" class="controlButton"><img src="../images/record.png"> </a>
-			<a id="playButton" class="controlButton"> <img src="../images/play.png"></a>
+			<a class="controlButton" ng-click="handleRecordButton()"><img src="../images/record.png"> </a>
+			<a class="controlButton" ng-click="handlePlayButton()"> <img src="../images/play.png"></a>
 			<a id="pauseButton" class="controlButton"><img src="../images/pause.png"> </a>
-			<a id="stopButton" class="controlButton"> <img src="../images/stop.png"></a>
+			<a class="controlButton" ng-click="handleStopButton()"> <img src="../images/stop.png"></a>
 		</div>
 		
 		<div class="box" id="comments">

@@ -7,20 +7,13 @@
 // loading the audio files and recording/playing sounds.
 
 
-var queue = [],
-    newQueue = [],
-    baseTime,
-    playInterval,
-    playing = false,
-    currentSongId;
+
 
  /*Initializers*///--------------------------------------------------------
 
  // Summary:
  //  Create the dialogs for user actions.
 function createDialogs() {
-    "use strict";
-    
     $("#saveDialog").dialog({
             autoOpen: false
      });
@@ -35,7 +28,6 @@ function createDialogs() {
 }
 
 function loadSounds() {
-    "use strict";
     var audioPath = "sounds/",
         manifest = [
             {id: "1", src: "sounds/binary_drop_01.ogg"},
@@ -57,14 +49,6 @@ function loadSounds() {
 
 }
 
-function setupSynthButtons() {
-    "use strict";
-    
-    $("#synth  .synthButton").click(handleSoundButton);
-    $("#recordButton").click(handleStart);
-    $("#stopButton").click(handleStop);
-    $("#playButton").click(handlePlay);
-}
 
 function setupMenuButtons() {
     $("#saveButton").click(handleSaveButton);
@@ -77,80 +61,10 @@ function setupDialogButtons() {
     $("#saveNewSongButton").button().click(handleSaveNewSongButton);
 }
 
-function setupComments() {
-    var commentInput = $('#commentInput');
-    
-    commentInput.keydown(function(e) {
-            
-            if(e.keyCode === 13) {
-                e.preventDefault();
-                addNewComment(commentInput.val(), loadComments);
-            }
-        });
-}
 
 /*Handlers*///-------------------------------------------------------------
 function handleSoundLoad(event) {
     console.log("Audio " + event.src + " was loaded.");
-}
-
-function handleSoundButton(event) {
-    var id = event.target.getAttribute("data-sound-id");
-    
-    createjs.Sound.play(id);
-    console.log("Play sound-> time: " + (Date.now() - baseTime) + " event: " + id);
-    
-    if(!baseTime) {
-        return;
-    }
-    
-    if (playing) {
-        newQueue.push({time: (Date.now() - baseTime), id: id});
-    } else {
-        queue.push({time: (Date.now() - baseTime), id: id});
-    }
-}
-
-function handleStart() {
-    baseTime = Date.now();
-    console.log("Start time is " + baseTime);
-    $("#indicator").addClass("recording");
-}
-
-function handleStop() {
-    console.log("stop");
-    $("#indicator").removeClass("playing");
-    $("#indicator").removeClass("recording");
-    clearInterval(playInterval);
-    playing = false;
-    queue = queue.concat(newQueue);
-    queue = queue.sort(function(a, b) {
-        a.time < b.time ? a : b;
-    });
-    newQueue = [];
-}
-
-function handlePlay() {
-    $("#indicator").addClass("playing");
-    var time = 0;
-    var pos = 0;
-    playing = true;
-
-    baseTime = Date.now();
-
-    playInterval = setInterval(function() {
-    console.log("Time is " + time + " and pos is " + pos);
-
-        if (pos >= queue.length) {
-            clearInterval(playInterval);
-        }
-
-        while (pos < queue.length && queue[pos].time < time) {
-            createjs.Sound.play(queue[pos].id);
-            pos++;
-        }
-        time += 50;
-    }, 50);
 }
 
 function handleSaveButton() {
@@ -169,7 +83,7 @@ function handleProfileClick() {
 
 function handleSaveNewSongButton() {
     var songName = $("#newSongNameInput").val(),
-    song = {};
+            song = {};
     
     song.name = songName;
     song.songData = queue.slice(0, queue.length - 1);
@@ -196,6 +110,7 @@ function openSongsController($scope, $http) {
     });
 
     
+    /*Loading*/
     $scope.loadSong = function(id) {
         console.log("Attempting to open song " + id);
         for(var i = 0; i < $scope.songs.length; i++) {
@@ -205,21 +120,21 @@ function openSongsController($scope, $http) {
                $scope.loadComments();
             }
         }
-    }
+    };
     
     $scope.loadComments = function(comment) {
         console.log("Loading the comments for this song.");
         $http.get("./comments/" + $scope.currentSong._id).success(function(data) {
             $scope.comments = data;
         });
-    }
+    };
     
     $scope.loadUser = function() {
         console.log("Get current user.");
         $http.get("./currentUser").success(function(data) {
             $scope.currentUser = data;
         });
-    }
+    };
     
     $scope.newSong = function() {
         console.log("Switching to  a new song.");
@@ -227,7 +142,7 @@ function openSongsController($scope, $http) {
         $scope.currentSong.queue = [];
         $scope.currentSong.name = "New Song";
         $scope.comments = [];
-    }
+    };
     
     /*Comments*/
     $scope.leaveComment = function() {
@@ -245,9 +160,90 @@ function openSongsController($scope, $http) {
             $scope.commentInput = "";
             $scope.loadComments();
         });
-    }
+    };
     
+    $scope.handleSythnButton = function(id) {
+        var queue = [];
+        
+        createjs.Sound.play(id);
+        console.log("Play sound-> time: " + (Date.now() - $scope.baseTime) + " event: " + id);
+        
+        if(!$scope.baseTime) {
+            return;
+        }
+        
+        if ($scope.playerState === "recording") {
+            $scope.newQueue.push({time: (Date.now() - $scope.baseTime), id: id});
+        }
+    };
+    
+    $scope.handleRecordButton = function() {
+        var time = 0, pos = 0;
+            
+        $scope.currentSong.queue = $scope.currentSong.queue.sort(function(a, b) { return a.time - b.time});
+        
+        console.log("Starting to record.");
+        $scope.baseTime = Date.now();
+        $scope.playerState = "recording";
+        $scope.newQueue = [];
+        
+        $scope.playInterval = setInterval(function() {
+        console.log("Time is " + time + " and pos is " + pos);
+
+            if (pos >= $scope.currentSong.queue.length) {
+                clearInterval($scope.playInterval);
+                return;
+            }
+
+            while (pos < $scope.currentSong.queue.length && $scope.currentSong.queue[pos].time < time) {
+                createjs.Sound.play($scope.currentSong.queue[pos].id);
+                pos++;
+            }
+            time += 50;
+        }, 50);
+    };
+    
+    $scope.handleStopButton = function() {
+        console.log("Stopping the player.");
+        $scope.baseTime = null;
+        clearInterval($scope.playInterval);
+        $scope.playerState = "stopped";
+        $scope.currentSong.queue = $scope.currentSong.queue.concat($scope.newQueue);
+        $scope.currentSong.queue = $scope.currentSong.queue.sort(function(a, b) {
+            return a.time - b.time;
+        });
+        $scope.newQueue = [];
+    };
+    
+    $scope.handlePlayButton = function() {
+        var time = 0, pos = 0;
+        
+        $scope.currentSong.queue = $scope.currentSong.queue.sort(function(a, b) { return a.time - b.time});
+        
+        $scope.playerState = "playing";
+        $scope.baseTime = Date.now();
+
+        $scope.playInterval = setInterval(function() {
+        console.log("Time is " + time + " and pos is " + pos);
+
+            if (pos >= $scope.currentSong.queue.length) {
+                clearInterval($scope.playInterval);
+                $scope.baseTime = null;
+                $scope.playerState = "stopped";
+                return;
+            }
+
+            while (pos < $scope.currentSong.queue.length && $scope.currentSong.queue[pos].time < time) {
+                createjs.Sound.play($scope.currentSong.queue[pos].id);
+                pos++;
+            }
+            time += 50;
+        }, 50);
+    };
+    
+    /*INIT*/
     $scope.loadUser();
+    $scope.newSong();
 }
 
 //Run initializers
@@ -256,10 +252,8 @@ $(function() {
 
     createDialogs();
     loadSounds();
-    setupSynthButtons();
     setupMenuButtons();
     setupDialogButtons();
-    setupComments();
     
     console.log("App Initialized.");
 });
