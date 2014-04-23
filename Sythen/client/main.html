@@ -9,6 +9,7 @@
 	
 		<div class="box" id='userDiv'>
 			<img id="avatarImage" src="{{currentUser.profilePic}}">
+			<span>{{currentUser.username}}</span>
 			<a class="button" id="logoutButton">logout</a>
 		</div>
 		
@@ -53,9 +54,11 @@
 		<div class="box" id="comments">
 		<input id="commentInput" placeholder="Leave a Comment on this Song." ng-model="commentInput"></input>
 		<button ng-click="leaveComment()" ng-disabled="!currentSong._id">Comment</button>
-		<ol>
-			<li ng-repeat="comment in comments">{{comment.comment}} - {{comment.username}} on {{comment.dateMade}}</lin>
-		</ol>
+		<div>
+			<ol>
+				<li ng-repeat="comment in comments">{{comment.comment}} - {{comment.username}} on {{comment.dateMade}}</lin>
+			</ol>
+		</div>
 		</div>
 		
 		<div id="saveDialog" title="Save Current Song.">
