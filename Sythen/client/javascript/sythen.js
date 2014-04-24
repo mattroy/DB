@@ -222,8 +222,8 @@ function openSongsController($scope, $http) {
                 createjs.Sound.play($scope.currentSong.queue[pos].id);
                 pos++;
             }
-            time += 50;
-        }, 50);
+            time += 10;
+        }, 10);
     };
     
     $scope.handleOpenButton = function() {  
@@ -266,6 +266,53 @@ function openSongsController($scope, $http) {
              $scope.currentSong.queue = $scope.currentSong.data;
         });
     };
+	
+	$scope.keypress = function(evt) {
+		var key;
+		
+		if($scope.playerState === "stopped") {
+			return;
+		}
+		switch(evt.keyCode) {
+			case 114:
+				key = "1";
+				break;
+			case 116: 
+				key = "2";
+				break;
+			case 121: 
+				key = "3";
+				break;
+			case 117: 
+				key = "4";
+				break;
+			case 102:
+				key = "5";
+				break;
+			case 103: 
+				key = "6";
+				break;
+			case 104: 
+				key = "7";
+				break;
+			case 106: 
+				key = "8";
+				break;
+			case 118: 
+				key = "9";
+				break;
+			case 98: 
+				key = "10";
+				break;
+			case 110:
+				key = "11";
+				break;
+			case 109:
+				key = "12";
+				break;
+		}
+		$scope.handleSythnButton(key);
+	};
     
     /*INIT*/
     $scope.loadUser();

@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/main.css">
 		<link rel="stylesheet" href="./css/ui-darkness/jquery-ui-1.10.4.custom.min.css">
 	</head>
-	<body ng-controller="openSongsController">
+	<body ng-controller="openSongsController" ng-keypress="keypress($event)">
 	
 		<div class="box" id='userDiv'>
 			<img id="avatarImage" src="{{currentUser.profilePic}}">
