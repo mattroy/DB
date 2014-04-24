@@ -86,6 +86,15 @@ module.exports = function(app, passport) {
         });
     });
     
+    app.put('/users/:username', function(req, res) {
+        console.log("Updating user " + req.params.username);
+        User.find({username: req.params.username}, function(err, users) {
+            users[0].profilePic = req.body.profilePic;
+            users[0].save();
+            res.send("ok");
+        });
+    });
+    
 	/*Songs*///----------------------------------
 	
 	app.post('/songs', function(req, res) {

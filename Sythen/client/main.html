@@ -52,7 +52,7 @@
 		</div>
 		
 		<div class="box" id="comments">
-		<input id="commentInput" placeholder="Leave a Comment on this Song." ng-model="commentInput"></input>
+		<input id="commentInput" placeholder="Leave a Comment on this Song." ng-model="commentInput" ng-disabled="!currentSong._id"></input>
 		<button ng-click="leaveComment()" ng-disabled="!currentSong._id">Comment</button>
 		<div>
 			<ol>
@@ -73,9 +73,10 @@
 		</div>
 		
 		<div id="profileDialog" title="Profile">
-			<img class="avatars" src="images/mroy.png"/>
-			<img class="avatars" src="images/mario.jpg"/>
-			<img class="avatars" src="images/sonic.png"/>
+			<img class="avatars" src="images/mroy.png" ng-click="setAvatar('mroy.png')"/>
+			<img class="avatars" src="images/mario.jpg" ng-click="setAvatar('mario.jpg')"/>
+			<img class="avatars" src="images/sonic.png" ng-click="setAvatar('sonic.png')"/>
+			<img class="avatars" src="images/user.png" ng-click="setAvatar('user.png')"/>
 		</div>
 
 		<script type="text/javascript" src="./javascript/libs/jquery-1.10.2.js"></script>

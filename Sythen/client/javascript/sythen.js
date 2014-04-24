@@ -241,6 +241,13 @@ function openSongsController($scope, $http) {
         }, 50);
     };
     
+    $scope.setAvatar = function(image) {
+        $scope.currentUser.profilePic = "images/"+ image;
+        $http.put("/users/" + $scope.currentUser.username, $scope.currentUser).success(function() {
+            
+        });
+    };
+    
     /*INIT*/
     $scope.loadUser();
     $scope.newSong();
