@@ -90,7 +90,6 @@ function openSongsController($scope, $http) {
     /*Loading*/
     $scope.loadSong = function(id) {
         console.log("Attempting to open song " + id);
-        debugger;
         for(var i = 0; i < $scope.songs.length; i++) {
             if($scope.songs[i]._id === id) {
                $scope.currentSong = $scope.songs[i];
