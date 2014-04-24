@@ -140,6 +140,13 @@ function openSongsController($scope, $http) {
         });
     };
     
+    $scope.removeComment = function(id) {
+        console.log("Remove a comment");
+        $http.delete("./comments/" + id).success(function() {
+            $scope.loadComments();
+        });
+    };
+    
     $scope.handleSythnButton = function(id) {
         var queue = [];
         

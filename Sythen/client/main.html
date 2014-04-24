@@ -57,7 +57,7 @@
 		<button ng-click="leaveComment()" ng-disabled="!currentSong._id">Comment</button>
 		<div>
 			<ol>
-				<li ng-repeat="comment in comments">{{comment.comment}} - {{comment.username}} on {{comment.dateMade}}</lin>
+				<li ng-repeat="comment in comments">{{comment.comment}} - {{comment.username}} on {{comment.dateMade | date:'MM-dd-yyyy HH:mm'}} <button ng-if="currentUser.username === comment.username" ng-click="removeComment(comment._id)">Delete</button></lin>
 			</ol>
 		</div>
 		</div>

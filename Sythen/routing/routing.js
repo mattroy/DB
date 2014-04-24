@@ -8,7 +8,15 @@
 
 //-------------------------------------------------------------------------------------------------
 
-//require
+function authenticate(req, res) {
+    console.log("Authenticating");
+    if(!req.session.passport.user) {
+        res.status(401).send("Not authorized.");
+        return false;
+    } else { 
+        return true;
+    }
+}
 
 module.exports = function(app, passport) {
 
@@ -56,7 +64,11 @@ module.exports = function(app, passport) {
 	});
 	
 	app.get("/main", function(req, res) {
-		res.sendfile("./client/main.html");
+        if(req.session.passport.user) {
+            res.sendfile("./client/main.html");
+        } else {
+            res.sendfile("./client/index.html");
+        }
 	});
 	
 	
@@ -67,14 +79,18 @@ module.exports = function(app, passport) {
 	app.get('/users', function(req, res) {
 		User.find({}, function(err, users) {
 			console.log("Found a user " + users[0].username);
-			res.send(users);
+            if(authenticate(req, res)) {
+                res.send(users);
+            }
 		});
 	});
 	
 	app.get('/users/:username', function(req, res) {
 		User.find({username: req.params.username}, function(err, users) {
 			console.log("found a single user" + users[0].username);
-			res.send(users);
+			if(authenticate(req, res)) {
+                res.send(users);
+            }
 		});
 	});
     
@@ -82,12 +98,18 @@ module.exports = function(app, passport) {
         console.log("Looking for user " + req.session.passport.user);
         User.find({username: req.session.passport.user}, function(err, users) {
             console.log("The current user is " + users[0].username);
-            res.send(users[0]);
+            if(authenticate(req, res)) {
+                res.send(users[0]);
+            }
         });
     });
     
     app.put('/users/:username', function(req, res) {
+        if(!authenticate(req, res)) {
+            return;
+        }
         console.log("Updating user " + req.params.username);
+        
         User.find({username: req.params.username}, function(err, users) {
             users[0].profilePic = req.body.profilePic;
             users[0].save();
@@ -98,6 +120,10 @@ module.exports = function(app, passport) {
 	/*Songs*///----------------------------------
 	
 	app.post('/songs', function(req, res) {
+        if(!authenticate(req, res)) {
+            return;
+        }
+        
         console.log("Saving song " + req.body.name);
         var username = req.session.passport.user,
                 song = new Song({
@@ -111,15 +137,21 @@ module.exports = function(app, passport) {
 	});
 	
 	app.get('/songs', function(req, res) {
-			Song.find({$or: [{username: req.session.passport.user}, {shared: "Public"}]}, function(err, songs) {
-                if(err) {
-                    console.error(err);
-                }
-				res.send(songs);
-			});
+        if(!authenticate(req, res)) {
+            return;
+        }
+        Song.find({$or: [{username: req.session.passport.user}, {shared: "Public"}]}, function(err, songs) {
+            if(err) {
+                console.error(err);
+            }
+            res.send(songs);
+        });
 	});
     
     app.put("/songs/:id", function(req, res) {
+        if(!authenticate(req, res)) {
+            return;
+        }
         Song.find({_id: req.params.id}, function(err, songs) {
             songs[0].shared = req.body.shared;
             songs[0].name = req.body.name;
@@ -131,6 +163,10 @@ module.exports = function(app, passport) {
 	/*Comments*///------------------------------
     app.post('/comments', function(req, res) {
 		var comment;
+        
+        if(!authenticate(req, res)) {
+            return;
+        }
         
         console.log("Adding a comment for " + req.body.song + " : " + req.body.user + ":" + req.body.comment);
         
@@ -145,6 +181,9 @@ module.exports = function(app, passport) {
 	});
     
     app.get('/comments/:id', function(req,res) {
+        if(!authenticate(req, res)) {
+            return;
+        }
         console.log("Requesting comments for id: " + req.params.id);
         
         Comment.find({songId: req.params.id}).sort({dateMade: 'desc'}).find(function(err, comments) {
@@ -152,4 +191,17 @@ module.exports = function(app, passport) {
         });
     });
     
+    app.delete("/comments/:id", function(req, res) {
+        console.log("remove a comment.");
+        Comment.find({_id: req.params.id}, function( err, comments) {
+                comments[0].remove();
+                res.send("ok");
+        });
+    });
+    
 }
+
+
+
+
+
