@@ -11,7 +11,7 @@ var commentSchema = mongoose.Schema({
 	comment: String,
 	songId: String,
 	username: String,
-	dateMade: {type: Date, default: Date.now()}
+	dateMade: {type: Date, default: Date.now}
 });
 
 
