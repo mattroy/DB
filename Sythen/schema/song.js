@@ -13,7 +13,8 @@ var songSchema = mongoose.Schema({
 	plays: {type: Number, default: 0},
 	data: mongoose.Schema.Types.Mixed,
 	dateCreated: {type: Date, default: Date.now()},
-	dateUpdated: {type: Date, default: Date.now()}
+	dateUpdated: {type: Date, default: Date.now()},
+    shared: {type: String, default: "Private"}
 });
 
 module.exports = mongoose.model("Song", songSchema);

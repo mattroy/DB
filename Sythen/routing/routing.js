@@ -98,21 +98,35 @@ module.exports = function(app, passport) {
 	/*Songs*///----------------------------------
 	
 	app.post('/songs', function(req, res) {
+        console.log("Saving song " + req.body.name);
         var username = req.session.passport.user,
                 song = new Song({
                     username: username,
                     name: req.body.name,
-                    data: req.body.songData
+                    data: req.body.songData,
+                    shared: req.body.shared
                 });
 		song.save();
-		
+		res.send(song);
 	});
 	
 	app.get('/songs', function(req, res) {
-			Song.find({}, function(err, songs) {
+			Song.find({$or: [{username: req.session.passport.user}, {shared: "Public"}]}, function(err, songs) {
+                if(err) {
+                    console.error(err);
+                }
 				res.send(songs);
 			});
 	});
+    
+    app.put("/songs/:id", function(req, res) {
+        Song.find({_id: req.params.id}, function(err, songs) {
+            songs[0].shared = req.body.shared;
+            songs[0].name = req.body.name;
+            
+            songs[0].save();
+        });
+    });
 	
 	/*Comments*///------------------------------
     app.post('/comments', function(req, res) {

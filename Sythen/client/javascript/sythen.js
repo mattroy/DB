@@ -52,15 +52,9 @@ function loadSounds() {
 
 function setupMenuButtons() {
     $("#saveButton").click(handleSaveButton);
-    $("#openButton").click(handleOpenButton);
     $("#logoutButton").click(handleLogoutButton);
     $("#avatarImage").click(handleProfileClick);
 }
-
-function setupDialogButtons() {
-    $("#saveNewSongButton").button().click(handleSaveNewSongButton);
-}
-
 
 /*Handlers*///-------------------------------------------------------------
 function handleSoundLoad(event) {
@@ -72,26 +66,8 @@ function handleSaveButton() {
     $("#saveDialog").dialog("open");
 }
 
-function handleOpenButton() {
-    console.log("Open button was clicked");
-    $("#openDialog").dialog("open");
-}
-
 function handleProfileClick() {
     $("#profileDialog").dialog("open");
-}
-
-function handleSaveNewSongButton() {
-    var songName = $("#newSongNameInput").val(),
-            song = {};
-    
-    song.name = songName;
-    song.songData = queue.slice(0, queue.length - 1);
-    
-    $.post("./songs", song, function() {
-        console.log("close save dialog");
-        $("#saveDialog").dialog("close");
-    });
 }
 
 function handleLogoutButton() {
@@ -104,19 +80,21 @@ function handleLogoutButton() {
 
 /*Controllers*///---------------------------------------------------------
 function openSongsController($scope, $http) {
-    console.log("Open songs controller.");
-    $http.get("./songs").success(function(data) {
-        $scope.songs = data;
-    });
-
+    
+    $scope.getSongs = function() {
+        $http.get("./songs").success(function(data) {
+            $scope.songs = data;
+        });
+    };
     
     /*Loading*/
     $scope.loadSong = function(id) {
         console.log("Attempting to open song " + id);
+        debugger;
         for(var i = 0; i < $scope.songs.length; i++) {
             if($scope.songs[i]._id === id) {
-                queue = $scope.songs[i].data;
                $scope.currentSong = $scope.songs[i];
+               $scope.currentSong.queue = $scope.currentSong.data;
                $scope.loadComments();
             }
         }
@@ -142,6 +120,7 @@ function openSongsController($scope, $http) {
         $scope.currentSong.queue = [];
         $scope.currentSong.name = "New Song";
         $scope.comments = [];
+        $scope.currentSong.shared = "Private";
     };
     
     /*Comments*/
@@ -241,6 +220,12 @@ function openSongsController($scope, $http) {
         }, 50);
     };
     
+    $scope.handleOpenButton = function() {  
+        console.log("Open button was clicked");
+        $scope.getSongs();
+        $("#openDialog").dialog("open");
+    };
+    
     $scope.setAvatar = function(image) {
         $scope.currentUser.profilePic = "images/"+ image;
         $http.put("/users/" + $scope.currentUser.username, $scope.currentUser).success(function() {
@@ -248,19 +233,47 @@ function openSongsController($scope, $http) {
         });
     };
     
+    $scope.toggleShared = function() {
+        if($scope.currentSong.shared === "Private") {
+            $scope.currentSong.shared = "Public";
+        } else {
+            $scope.currentSong.shared = "Private";
+        }
+        
+        if($scope.currentSong._id) {
+            $http.put("/songs/" + $scope.currentSong._id, $scope.currentSong).success(function() {});
+        }
+        res.send("ok");
+    };
+    
+    $scope.saveSong = function() {
+        console.log("Saving song");
+        
+        var song = {
+            name: $scope.newSongName,
+            songData: $scope.currentSong.queue,
+            shared: $scope.currentSong.shared
+        };
+        
+        $http.post("/songs", song).success(function(data) {
+            $scope.currentSong = data;
+             $scope.currentSong.queue = $scope.currentSong.data;
+        });
+    };
+    
     /*INIT*/
     $scope.loadUser();
     $scope.newSong();
+    $scope.getSongs();
 }
 
 //Run initializers
 $(function() {
     console.log("Initializing app...");
-
+    
     createDialogs();
     loadSounds();
     setupMenuButtons();
-    setupDialogButtons();
     
     console.log("App Initialized.");
 });

@@ -16,8 +16,9 @@
 		<div class="box" id="topBar"> 
 			<span id="titleSpan" ng-init="currentSong.name = 'New Song'">{{currentSong.name}}<span> <menu id="songMenu"> 
 				<a src="#" class="button" id="newButton" ng-click="newSong()">New</a>
-				<a src="#" class="button" id="openButton">Open</a> 
+				<a src="#" class="button" id="openButton" ng-click="handleOpenButton()">Open</a> 
 				<a src="#" class="button" id="saveButton">Save</a>
+				<a src="#" class="button" id="sharedButton" ng-click="toggleShared()">{{currentSong.shared}}</a>
 			</menu> 
 			<div class="box {{playerState}}" id="indicator"> </div>
 		</div>
@@ -62,8 +63,8 @@
 		</div>
 		
 		<div id="saveDialog" title="Save Current Song.">
-			<input id="newSongNameInput" placeholder="Song Name"></input>
-			<button id="saveNewSongButton">Save</button>
+			<input id="newSongNameInput" placeholder="Song Name" ng-model="newSongName"></input>
+			<button id="saveNewSongButton" ng-click="saveSong()">Save</button>
 		</div>
 		
 		<div id="openDialog" title="Open a Song">
