@@ -8,11 +8,15 @@ The app expects a mongodb instance to be running and specified in the config.js 
 
 Before starting the app you will need to install the node packages, run the command
 
-npm --install
+````
+npm install
+````
 
 In order to start the app, run the command 
 
+````
 node server.js 
+````
 
 APP
 ==
