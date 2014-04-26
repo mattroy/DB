@@ -23,13 +23,14 @@ module.exports = function(app, passport) {
 	/*Start Database*/
 	var 
 		mongoose = require("mongoose"),
+        config = require('../config'),
 		LocalStrategy = require("passport-local").Strategy,
 		User = require("../schema/user"),
 		Song = require("../schema/song"),
 		Comment = require("../schema/comment");
 
 
-	mongoose.connect('mongodb://localhost/sythendb');
+	mongoose.connect(config.database);
 	var db = mongoose.connection;
 
 	db.once('open', function() {
